@@ -1,7 +1,6 @@
 package clases;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import sun.util.calendar.Gregorian;
 
 /**
  * Clase que representa a Motos de la Asociación.
@@ -33,11 +32,32 @@ public class Moto {
         IDmoto = ++proximoIDMoto; //Incremento del IDmoto.
         cesiones = new ArrayList<Cesion>();
     }
+    
+    /**
+     * Constructor con argumentos
+     * @param modelo
+     * @param cilindrada
+     * @param precio
+     * @param matricula
+     */
+    public Moto(String modelo, int cilindrada, int precio, String matricula, int gastos) {
+        this.modelo = modelo;
+        this.cilindrada = cilindrada;
+        this.precio = precio;
+        this.matricula = matricula;
+        IDmoto = ++proximoIDMoto; //Incremento del IDmoto.
+        cesiones = new ArrayList<Cesion>();
+    }
 
     /**
      * Constructor con argumentos, ID de la moto y ArrayList de Cesiones.
      */
     public Moto() {
+        IDmoto = ++proximoIDMoto;
+        cesiones = new ArrayList<Cesion>();
+    }
+    
+    public Moto(int gastos) {
         IDmoto = ++proximoIDMoto;
         cesiones = new ArrayList<Cesion>();
     }
@@ -140,7 +160,7 @@ public class Moto {
 
     @Override
     public String toString() {
-        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - " + precio + "€";
+        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - Precio:" + precio + "€";
     }
 
     /**

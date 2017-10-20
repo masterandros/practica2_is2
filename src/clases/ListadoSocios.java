@@ -1,6 +1,5 @@
 package clases;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  *
@@ -11,8 +10,8 @@ import java.util.Comparator;
 public class ListadoSocios {
 
     private ArrayList<Socio> socios = null;
-    public static int cuota = 60;   //Cuota del usuario
-    public static int precioMaximoMoto = cuota * 100; //Cuota del usuario * 100 = 6000€ siendo el máximo que puede gastar.
+    //public static int cuota = 60;   //Cuota del usuario
+    public static int precioMaximoMotos = 6000; //Cuota del usuario * 100 = 6000€ siendo el máximo que puede gastar.
 
     /**
      * Listadomotos recoge un ArrayList de motos con un conjunto de ellas, predefinidas
@@ -30,6 +29,24 @@ public class ListadoSocios {
         socios.add(sc4);
     }
 
+    /*public static int getCuota() {
+        return cuota;
+    }
+
+    public static void setCuota(int cuota) {
+        ListadoSocios.cuota = cuota;
+    }*/
+
+    public static int getPrecioMaximoMotos() {
+        return precioMaximoMotos;
+    }
+
+    public static void setPrecioMaximoMotos(int precioMaximoMotos) {
+        ListadoSocios.precioMaximoMotos = precioMaximoMotos;
+    }
+
+    
+    
     //Buscar Socio por ID.
     public Socio buscarSocioId(int IDsocio) {
         for (Socio socio : socios) {
@@ -68,7 +85,7 @@ public class ListadoSocios {
     //Listamos los socios junto a su: ID, Nombre, MotosActuales, Crédito en €
     public void listarSocios() {
         for (Socio socio : socios) {
-            System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMoto - socio.getPrecioMotosActuales()) + "€");
+            System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMotos - socio.getPrecioMotosActuales()) + "€");
         }
     }
 
@@ -77,7 +94,7 @@ public class ListadoSocios {
         boolean haberlosHaylos = false;
         for (Socio socio : socios) {
             if (socio.getMotosActuales().size() > 0) {
-                System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - Crédito: " + (ListadoSocios.precioMaximoMoto-socio.getPrecioMotosActuales()));
+                System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - Crédito: " + (ListadoSocios.precioMaximoMotos-socio.getPrecioMotosActuales()));
                 socio.listadoMotosActuales();
                 haberlosHaylos = true;
             }
@@ -103,7 +120,7 @@ public class ListadoSocios {
     public void listarSociosCredito(int credito) {
         for (Socio socio : socios) {
             if(socio.checkNuevaCesion(credito)){
-                System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMoto - socio.getPrecioMotosActuales()) + "€");
+                System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMotos - socio.getPrecioMotosActuales()) + "€");
             }
         }
     }

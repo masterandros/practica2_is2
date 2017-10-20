@@ -119,7 +119,7 @@ private ArrayList<Moto> motosActuales;
      * @return
      */
     public boolean checkNuevaCesion(int credito){
-        return (credito+getPrecioMotosActuales()<=ListadoSocios.precioMaximoMoto);
+        return (credito+getPrecioMotosActuales()<=ListadoSocios.precioMaximoMotos);
     }
 
     /**
@@ -130,8 +130,8 @@ private ArrayList<Moto> motosActuales;
     @Override
     public String toString() {
         String texto = "ID: " + IDsocio + " " + nombre + "\n";
-        texto += "Le quedan " + (ListadoSocios.precioMaximoMoto-getPrecioMotosActuales()) + "€\n";
-        int credito = ListadoSocios.precioMaximoMoto;
+        texto += "Le quedan " + (ListadoSocios.precioMaximoMotos-getPrecioMotosActuales()) + "€\n";
+        int credito = ListadoSocios.precioMaximoMotos;
         for (Moto motoActual : motosActuales) {
             texto += "  " + motoActual + "\n";
             credito -= motoActual.getPrecio();

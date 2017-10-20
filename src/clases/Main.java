@@ -20,14 +20,6 @@ import java.util.logging.Logger;
 public class Main {
     private int opcion;
     //String concantenado con todo el menú
-    private String miMenu = "\n"
-            + "1 - Registrar un nuevo miembro.\n"
-            + "2 - Registrar una nueva motocicleta.\n"
-            + "3 - Registrar una cesión.\n"
-            + "4 - Listar en pantalla los miembros con motos en posesión.\n"
-            + "5 - Listar todas las motos.\n"
-            + "6 - Mostrar las cesiones realizadas.\n"
-            + "7 - Salir del programa.\n\n";
     ListadoSocios ls;
     ListadoMotos lm;
 
@@ -39,6 +31,11 @@ public class Main {
     public void menu() {
         ls = new ListadoSocios();
         lm = new ListadoMotos();
+        int nuevoMaximoPrecioMotos = -1;
+        do {
+            nuevoMaximoPrecioMotos = Consola.introducirEntero("Introduce el nuevo máximo (minimo=6000,actual=" + ListadoSocios.getPrecioMaximoMotos() + ")");
+        } while(nuevoMaximoPrecioMotos < ListadoSocios.getPrecioMaximoMotos());
+        ListadoSocios.setPrecioMaximoMotos(nuevoMaximoPrecioMotos);
         for (Moto moto : lm.getMotos()) {
             boolean asignada = false;
             for(int i = 0 ; i < ls.getSocios().size() && !asignada ; i++){
@@ -54,7 +51,15 @@ public class Main {
         //Título de la Asociación ACAMA
         System.out.print("Práctica 1 - Acama (Asociación de amigos de motos antiguas) \n");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        while (opcion != 7) {
+        while (opcion != -1) {
+            String miMenu = "\n"
+            + "1 - Registrar un nuevo miembro.\n"
+            + "2 - Registrar una nueva motocicleta.\n"
+            + "3 - Registrar una cesión.\n"
+            + "4 - Listar en pantalla los miembros con motos en posesión.\n"
+            + "5 - Listar todas las motos.\n"
+            + "6 - Mostrar las cesiones realizadas.\n"
+            + "7 - Salir del programa.\n\n";
             System.out.print(miMenu);
             opcion = Consola.introducirEntero("Introduce tu opción");
             System.out.println();
@@ -82,7 +87,6 @@ public class Main {
                     listarMotos(); //Listar todas las motos.
                     break;
                 }
-
                 case 6: {
                     listarCesiones(); //Listar todas las cesiones
                     break;
@@ -147,8 +151,8 @@ public class Main {
         if (m.getPrecio() != -1){
             int creditoMaximo = 0;
             for (Socio socio : ls.getSocios()) {
-                if (6000 - socio.getPrecioMotosActuales() >= creditoMaximo) {
-                    creditoMaximo = 6000 - socio.getPrecioMotosActuales();
+                if (ListadoSocios.getPrecioMaximoMotos() - socio.getPrecioMotosActuales() >= creditoMaximo) {
+                    creditoMaximo = ListadoSocios.getPrecioMaximoMotos() - socio.getPrecioMotosActuales();
                 }
             }
             if (creditoMaximo <= m.getPrecio()) {
@@ -207,7 +211,7 @@ public class Main {
                 if(cesionario.equals(cedido)){
                  System.out.println("No se puede ceder una moto a usted mismo");    
                 }else
-                System.out.println("No es posible ceder la moto, se ha superado el limite de 6000€");
+                System.out.println("No es posible ceder la moto, se ha superado el limite de " + ListadoSocios.getPrecioMaximoMotos() + "€");
             } 
         }
        
