@@ -59,7 +59,8 @@ public class Main {
             + "4 - Listar en pantalla los miembros con motos en posesión.\n"
             + "5 - Listar todas las motos.\n"
             + "6 - Mostrar las cesiones realizadas.\n"
-            + "7 - Salir del programa.\n\n";
+            + "7 - Incrementar otros gastos a una moto.\n"
+            + "8 - Salir del programa.\n\n";
             System.out.print(miMenu);
             opcion = Consola.introducirEntero("Introduce tu opción");
             System.out.println();
@@ -92,6 +93,10 @@ public class Main {
                     break;
                 }
                 case 7: {
+                    anyadirGastosMoto(); //Listar todas las cesiones
+                    break;
+                }
+                case 8: {
                     guardarFichero(); //Guardar archivo con nombre personalizado y volcar datos.
                     break;
                 }
@@ -163,6 +168,7 @@ public class Main {
                 m.setModelo(Consola.introducirCadena("Introduce el modelo"));
                 m.setCilindrada(Consola.introducirEntero("Introduce la cilindrada"));
                 m.setMatricula(Consola.introducirCadena("Introduce la matrícula"));
+                m.anyadirGastos(Consola.introducirEntero("Introduce los gastos de la moto"));
                 Socio cesionario = null;
                 if (m.getCesionActual() != null) {
                     cesionario = m.getCesionActual().getCedido();
@@ -280,6 +286,15 @@ public class Main {
             System.out.println("Se ha guardado el fichero");
         } catch (IOException ex) {
             System.err.println("No se puede abrir el fichero \"" + nombre + "\"");
+        }
+    }
+
+    private void anyadirGastosMoto() {
+        if(lm.listarMotos()){
+            Moto moto = lm.buscarMotoID(Consola.introducirEntero("Introduce la ID de la moto"));
+            moto.anyadirGastos(Consola.introducirEntero("Gastos a añadir"));
+        } else {
+            System.out.println("No hay motos");
         }
     }
 }

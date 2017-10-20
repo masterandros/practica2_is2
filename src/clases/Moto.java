@@ -16,6 +16,7 @@ public class Moto {
     private String matricula;       //Matrícula del vehículo
     private static int proximoIDMoto = 0;   //Varible Static para controlar ID de moto.
     private ArrayList<Cesion> cesiones;     //Arraylist de Cesiones.
+    private int gastos = 0;
 
     /**
      * Constructor con argumentos
@@ -47,6 +48,7 @@ public class Moto {
         this.matricula = matricula;
         IDmoto = ++proximoIDMoto; //Incremento del IDmoto.
         cesiones = new ArrayList<Cesion>();
+        this.gastos = gastos;
     }
 
     /**
@@ -60,6 +62,7 @@ public class Moto {
     public Moto(int gastos) {
         IDmoto = ++proximoIDMoto;
         cesiones = new ArrayList<Cesion>();
+        this.gastos = gastos;
     }
 
     /**
@@ -160,7 +163,7 @@ public class Moto {
 
     @Override
     public String toString() {
-        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - Precio:" + precio + "€";
+        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - Precio:" + precio + "€ - Gastos:" + gastos + "€";
     }
 
     /**
@@ -191,5 +194,17 @@ public class Moto {
         } else {
             return cesiones.get(cesiones.size() - 1);
         }
+    }
+
+    public int getGastos() {
+        return gastos;
+    }
+
+    public void setGastos(int gastos) {
+        this.gastos = gastos;
+    }
+
+    public void anyadirGastos(int gastos) {
+        this.gastos += gastos;
     }
 }
