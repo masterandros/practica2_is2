@@ -56,6 +56,14 @@ private ArrayList<Moto> motosActuales;
             return nombre;
     }
     
+    public int getCredito(){
+        int cedido = 0;
+        for (Moto motoActual : motosActuales) {
+            cedido += motoActual.getPrecio();
+        }
+        return ListadoSocios.getPrecioMaximoMotos()-cedido;
+    }
+    
     /**
      * Añade una moto con su fecha de cesión.
      * @param moto

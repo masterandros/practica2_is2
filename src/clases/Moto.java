@@ -163,7 +163,7 @@ public class Moto {
 
     @Override
     public String toString() {
-        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - Precio:" + precio + "€ - Gastos:" + gastos + "€";
+        return "ID: " + IDmoto + " - Modelo: " + modelo + " - Cilindrada: " + cilindrada + " - " + "Matrícula: " + matricula + " - Precio:" + precio + "€ - Gastos:" + gastos + "€ - Cedido a " + cesiones.get(cesiones.size()-1).getCedido().getNombre();
     }
 
     /**

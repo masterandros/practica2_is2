@@ -1,5 +1,6 @@
 package clases;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  *
@@ -124,6 +125,37 @@ public class ListadoSocios {
                     System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMotos - socio.getPrecioMotosActuales()) + "€");
                 }
             }
+        }
+    }
+    
+    public ArrayList<Socio> sortSocios(){
+        ArrayList<Socio> sociosOrdenados = new ArrayList<Socio>();
+        sociosOrdenados = (ArrayList<Socio>) socios.clone();
+        sociosOrdenados.sort(new Comparator<Socio>() {
+            @Override
+            public int compare(Socio s1, Socio s2) {
+                if(s1.getMotosActuales().size() == s2.getMotosActuales().size()){
+                    if(s1.getCredito() == s2.getCredito()){
+                        return -1;
+                    } else if(s1.getCredito() < s2.getCredito()){
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else if(s1.getMotosActuales().size() < s2.getMotosActuales().size()){
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        return sociosOrdenados;
+    }
+    
+    public void listarSociosOrdenado(){
+        ArrayList<Socio> sociosOrdenados = sortSocios();
+        for (Socio socio : sociosOrdenados) {
+            System.out.println(socio.toString());
         }
     }
 }

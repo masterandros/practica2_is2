@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Josep Barberá Muñoz.
  */
 public class Main {
-    private int opcion;
+    public int opcion;
     //String concantenado con todo el menú
     ListadoSocios ls;
     ListadoMotos lm;
@@ -61,7 +61,8 @@ public class Main {
             + "6 - Mostrar las cesiones realizadas.\n"
             + "7 - Incrementar otros gastos a una moto.\n"
             + "8 - Eliminar miembro de la asociación.\n"
-            + "9 - Salir del programa.\n\n";
+            + "9 - Miembros con más cesiones.\n"
+            + "10 - Salir del programa.\n\n";
             System.out.print(miMenu);
             opcion = Consola.introducirEntero("Introduce tu opción");
             System.out.println();
@@ -102,7 +103,12 @@ public class Main {
                     break;
                 }
                 case 9: {
+                    listarMiembrosMasCesiones(); //Guardar archivo con nombre personalizado y volcar datos.
+                    break;
+                }
+                case 10: {
                     guardarFichero(); //Guardar archivo con nombre personalizado y volcar datos.
+                    opcion = -1;
                     break;
                 }
                 default: {
@@ -273,7 +279,7 @@ public class Main {
      *  Contemplamos el caso adicional de que no se pueda abrir el fichero.
      */
 
-    private void guardarFichero() {
+    public void guardarFichero() {
         String nombre = "src\\archivo\\" + Consola.introducirCadena("Introduce el nombre del fichero") + ".txt";
         try {
             System.out.print("Guardando fichero ");
@@ -303,7 +309,7 @@ public class Main {
         }
     }
 
-    private void anyadirGastosMoto() {
+    public void anyadirGastosMoto() {
         if(lm.listarMotos()){
             Moto moto = lm.buscarMotoID(Consola.introducirEntero("Introduce la ID de la moto"));
             moto.anyadirGastos(Consola.introducirEntero("Gastos a añadir"));
@@ -312,7 +318,7 @@ public class Main {
         }
     }
 
-    private void eliminarMiembro() {
+    public void eliminarMiembro() {
         ls.listarSocios();
         int numSocio = -1;
         while (numSocio == -1) {
@@ -329,5 +335,9 @@ public class Main {
             ls.eliminarSocio(ls.buscarSocioId(numSocio));
             System.out.println("Socio eliminado");
         }
+    }
+
+    public void listarMiembrosMasCesiones() {
+        ls.listarSociosOrdenado();
     }
 }

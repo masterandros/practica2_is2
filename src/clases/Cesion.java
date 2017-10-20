@@ -52,6 +52,6 @@ public class Cesion {
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM YYYY");
-        return "En " + sdf.format(fecha.getTime()) + ", " + cedido.getNombre() + " cedió la moto " + moto;
+        return "En " + sdf.format(fecha.getTime()) + ", cedida a " + cedido.getNombre() + " la moto " + moto;
     }
 }
