@@ -60,7 +60,8 @@ public class Main {
             + "5 - Listar todas las motos.\n"
             + "6 - Mostrar las cesiones realizadas.\n"
             + "7 - Incrementar otros gastos a una moto.\n"
-            + "8 - Salir del programa.\n\n";
+            + "8 - Eliminar miembro de la asociación.\n"
+            + "9 - Salir del programa.\n\n";
             System.out.print(miMenu);
             opcion = Consola.introducirEntero("Introduce tu opción");
             System.out.println();
@@ -75,7 +76,7 @@ public class Main {
                 }
 
                 case 3: {
-                    registrarCesion(); //Registrar una nueva cesión.
+                    registrarCesion(null, null); //Registrar una nueva cesión.
                     break;
                 }
 
@@ -97,6 +98,10 @@ public class Main {
                     break;
                 }
                 case 8: {
+                    eliminarMiembro();
+                    break;
+                }
+                case 9: {
                     guardarFichero(); //Guardar archivo con nombre personalizado y volcar datos.
                     break;
                 }
@@ -178,7 +183,7 @@ public class Main {
                     cesionario.quitarMotoActual(m);
                 }
                 while (cesionario == null) {
-                    ls.listarSociosCredito(m.getPrecio());
+                    ls.listarSociosCredito(m.getPrecio(), null);
                     cesionario = ls.buscarSocioId(Consola.introducirEntero("Introduce el número del cesionario de la moto"));
                     if (cesionario.checkNuevaCesion(m.getPrecio())) {
                         m.anyadirCesion(cesionario, new GregorianCalendar());
@@ -199,29 +204,38 @@ public class Main {
      *  1. No podamos cedernos una moto a nosotros mismos, ya que somos los propietarios y lo que queremos hacer es cederla a otro.
      *  2. Que el Socio al que quedamos ceder la moto, no podamos cedersela porque haya superado el límite de los 6000€.
      */
-    public void registrarCesion() {
-        if(lm.listarMotos()){
-            Moto moto = lm.buscarMotoID(Consola.introducirEntero("Introduce la ID de la moto"));
-            ls.listarSociosCredito(moto.getPrecio());
-            Socio cedido = ls.buscarSocioId(Consola.introducirEntero("Introduce el número de socio al que vas a ceder la moto"));
-            Socio cesionario = ls.buscarCesionarioMoto(moto);
-            if (cedido.checkNuevaCesion(moto.getPrecio()) && !cesionario.equals(cedido)) {
-                if (cesionario != null) {
-                    cesionario.quitarMotoActual(moto);
-                }
-                GregorianCalendar fechaInicio = Consola.introducirFecha("¿Desde cuando la quieres ceder?");
-                cedido.anyadirMotoActual(moto, fechaInicio);
-                moto.anyadirCesion(cedido, fechaInicio);
-                System.out.println("Moto cedida");
-            } else {
-                if(cesionario.equals(cedido)){
-                 System.out.println("No se puede ceder una moto a usted mismo");    
-                }else
-                System.out.println("No es posible ceder la moto, se ha superado el limite de " + ListadoSocios.getPrecioMaximoMotos() + "€");
-            } 
+    public void registrarCesion(Moto m, Socio s) {
+        Moto moto = m;
+        Socio cesionario = s;
+        System.out.println("\nSOCIO");
+        if(cesionario == null){
+            cesionario = ls.buscarCesionarioMoto(moto);
+        } else {
+            System.out.println(cesionario.toString());
         }
-       
-        
+        System.out.println("\nMOTO");
+        if(moto == null){
+            lm.listarMotos();
+            moto = lm.buscarMotoID(Consola.introducirEntero("Introduce la ID de la moto"));
+        } else {
+            System.out.println(moto.toString());
+        }
+        ls.listarSociosCredito(moto.getPrecio(), cesionario);
+        Socio cedido = ls.buscarSocioId(Consola.introducirEntero("Introduce el número de socio al que vas a ceder la moto"));
+        if (cedido.checkNuevaCesion(moto.getPrecio()) && !cesionario.equals(cedido)) {
+            if (cesionario != null) {
+                cesionario.quitarMotoActual(moto);
+            }
+            GregorianCalendar fechaInicio = Consola.introducirFecha("¿Desde cuando la quieres ceder?");
+            cedido.anyadirMotoActual(moto, fechaInicio);
+            moto.anyadirCesion(cedido, fechaInicio);
+            System.out.println("Moto cedida");
+        } else {
+            if(cesionario.equals(cedido)){
+             System.out.println("No se puede ceder una moto a usted mismo");    
+            }else
+            System.out.println("No es posible ceder la moto, se ha superado el limite de " + ListadoSocios.getPrecioMaximoMotos() + "€");
+        } 
     }
 
     /**
@@ -295,6 +309,25 @@ public class Main {
             moto.anyadirGastos(Consola.introducirEntero("Gastos a añadir"));
         } else {
             System.out.println("No hay motos");
+        }
+    }
+
+    private void eliminarMiembro() {
+        ls.listarSocios();
+        int numSocio = -1;
+        while (numSocio == -1) {
+            numSocio = Consola.introducirEntero("Introduce el socio que quieras eliminar (0=Cancelar)");
+        }
+        if(numSocio != 0){
+            while(!ls.buscarSocioId(numSocio).getMotosActuales().isEmpty()){
+                Moto moto = ls.buscarSocioId(numSocio).getMotosActuales().get(0);
+                registrarCesion(moto, ls.buscarSocioId(numSocio));
+            }
+            /*for (Moto moto : ls.buscarSocioId(numSocio).getMotosActuales()) {
+                registrarCesion(moto, ls.buscarSocioId(numSocio));
+            }*/
+            ls.eliminarSocio(ls.buscarSocioId(numSocio));
+            System.out.println("Socio eliminado");
         }
     }
 }

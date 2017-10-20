@@ -117,10 +117,12 @@ public class ListadoSocios {
     }
     
     //Función que Lista o muestra el crédito que le queda a un socio.
-    public void listarSociosCredito(int credito) {
+    public void listarSociosCredito(int credito, Socio s) {
         for (Socio socio : socios) {
-            if(socio.checkNuevaCesion(credito)){
-                System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMotos - socio.getPrecioMotosActuales()) + "€");
+            if(!socio.equals(s)){
+                if(socio.checkNuevaCesion(credito)){
+                    System.out.println(socio.getIDsocio() + "-" + socio.getNombre() + " - " + socio.getNumMotosActuales() + " motos" + " - " + (precioMaximoMotos - socio.getPrecioMotosActuales()) + "€");
+                }
             }
         }
     }
